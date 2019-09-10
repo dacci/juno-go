@@ -24,10 +24,6 @@ type genericService struct {
 	request chan os.Signal
 }
 
-func (*genericService) Args() []string {
-	return os.Args[1:]
-}
-
 func (this *genericService) Ready() {
 	for {
 		select {

@@ -9,14 +9,9 @@ import (
 
 type windowsService struct {
 	handler func(Service)
-	args    []string
 	request <-chan svc.ChangeRequest
 	status  chan<- svc.Status
 	log     *eventlog.Log
-}
-
-func (this *windowsService) Args() []string {
-	return this.args
 }
 
 func (this *windowsService) Ready() {
@@ -52,7 +47,6 @@ func (this *windowsService) Info(format string, v ...interface{}) {
 }
 
 func (this *windowsService) Execute(args []string, request <-chan svc.ChangeRequest, status chan<- svc.Status) (svcSpecificEC bool, exitCode uint32) {
-	this.args = args
 	this.request = request
 	this.status = status
 

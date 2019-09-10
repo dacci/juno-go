@@ -13,10 +13,6 @@ type linuxService struct {
 	request chan os.Signal
 }
 
-func (*linuxService) Args() []string {
-	return os.Args[1:]
-}
-
 func (this *linuxService) Ready() {
 	daemon.SdNotify(false, daemon.SdNotifyReady)
 	defer daemon.SdNotify(false, daemon.SdNotifyStopping)
