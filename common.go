@@ -52,3 +52,30 @@ func newServer(config map[string]interface{}) (service StreamServer, err error) 
 
 	return
 }
+
+func nativeListeners(config map[string]interface{}) ([]net.Listener, error) {
+	switch value := config["listenStream"].(type) {
+	case []string:
+		listeners := make([]net.Listener, len(value))
+
+		for i, address := range value {
+			if listener, err := net.Listen("tcp", address); err == nil {
+				listeners[i] = listener
+			}
+		}
+
+		return listeners, nil
+
+	case string:
+		if listener, err := net.Listen("tcp", value); err == nil {
+			return []net.Listener{listener}, nil
+		} else {
+			return []net.Listener{}, nil
+		}
+
+	case nil:
+		return []net.Listener{}, nil
+	}
+
+	return nil, fmt.Errorf("illegal type for listenStream: %T", config["listenStream"])
+}
