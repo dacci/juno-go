@@ -1,0 +1,5 @@
+{
+  "systemd": false,
+  "listenStream": ":1080",
+  "provider": "socks"
+}

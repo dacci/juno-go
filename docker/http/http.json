@@ -1,0 +1,5 @@
+{
+  "systemd": false,
+  "listenStream": ":8080",
+  "provider": "http"
+}
