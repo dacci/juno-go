@@ -1,0 +1,35 @@
+name: compose
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  DOCKER_REPOSITORY: docker.pkg.github.com/${{ github.repository }}
+
+jobs:
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 1
+      - name: build
+        run: docker-compose build --no-cache
+      - name: docker login
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "${GITHUB_TOKEN}" | docker login docker.pkg.github.com -u $(dirname ${{ github.repository }}) --password-stdin
+      - name: push base
+        run: |
+          docker tag juno-go-base ${DOCKER_REPOSITORY}/base
+          docker push ${DOCKER_REPOSITORY}/base
+      - name: push socks
+        run: |
+          docker tag juno-go-socks ${DOCKER_REPOSITORY}/socks
+          docker push ${DOCKER_REPOSITORY}/socks
+      - name: push http
+        run: |
+          docker tag juno-go-http ${DOCKER_REPOSITORY}/http
+          docker push ${DOCKER_REPOSITORY}/http
