@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  base:
+    build:
+      context: docker
+    image: juno-go-base
+  socks:
+    build:
+      context: docker/socks
+    image: juno-go-socks
+    depends_on:
+      - base
+  http:
+    build:
+      context: docker/http
+    image: juno-go-http
+    depends_on:
+      - base

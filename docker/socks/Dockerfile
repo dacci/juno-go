@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/dacci/juno-go/base
+FROM juno-go-base
 
 WORKDIR /root
 
