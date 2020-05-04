@@ -3,7 +3,7 @@ version: '3'
 services:
   base:
     build:
-      context: docker
+      context: .
     image: juno-go-base
   socks:
     build:
